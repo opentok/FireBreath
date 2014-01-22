@@ -84,7 +84,7 @@ public:
     void setPtr(const FB::SimpleStreamHelperPtr& inPtr) { ptr = inPtr; }
     
     void getURLCallback(bool success, const FB::HeaderMap& headers,
-        const boost::shared_array<uint8_t>& data, const size_t size)
+        const boost::shared_array<uint8_t>& data, const size_t size, float progress, bool isCompleted)
     {
         boost::lock_guard<boost::mutex> lock(m_mutex);
         m_response = boost::make_shared<FB::HttpStreamResponse>(success, headers, data, size);
@@ -114,7 +114,7 @@ FB::HttpStreamResponsePtr FB::SimpleStreamHelper::SynchronousRequest( const FB::
     assert(!host->isMainThread());
     SyncHTTPHelper helper;
     try {
-        FB::HttpCallback cb(boost::bind(&SyncHTTPHelper::getURLCallback, &helper, _1, _2, _3, _4));
+        FB::HttpCallback cb(boost::bind(&SyncHTTPHelper::getURLCallback, &helper, _1, _2, _3, _4, _5, _6));
         FB::SimpleStreamHelperPtr ptr = AsyncRequest(host, req);
         helper.setPtr(ptr);
         helper.waitForDone();
@@ -154,7 +154,7 @@ bool FB::SimpleStreamHelper::onStreamCompleted( FB::StreamCompletedEvent *evt, F
 {
     if (!evt->success) {
         if (callback)
-            callback(false, FB::HeaderMap(), boost::shared_array<uint8_t>(), received);
+            callback(false, FB::HeaderMap(), boost::shared_array<uint8_t>(), received, 0.0, true);
         callback.clear();
         self.reset();
         return false;
@@ -178,7 +178,7 @@ bool FB::SimpleStreamHelper::onStreamCompleted( FB::StreamCompletedEvent *evt, F
     if (callback && stream) {
         std::multimap<std::string, std::string> headers;
         headers = parse_http_headers(stream->getHeaders());
-        callback(true, headers, data, received);
+        callback(true, headers, data, received, 0.0, true);
     }
     callback.clear();
     self.reset();
@@ -199,6 +199,8 @@ bool FB::SimpleStreamHelper::onStreamDataArrived( FB::StreamDataArrivedEvent *ev
 
     int len = evt->getLength();
     int offset = evt->getDataPosition();
+    float progress =  evt->getProgress();
+
     while (buf < endbuf) {
         size_t n = offset / blockSize;
         size_t pos = offset % blockSize;
@@ -218,6 +220,11 @@ bool FB::SimpleStreamHelper::onStreamDataArrived( FB::StreamDataArrivedEvent *ev
         buf += curLen;
         offset += curLen;
         len -= curLen;
+    }
+    if (callback) {
+        std::multimap<std::string, std::string> dummyHeaders;
+        boost::shared_array<uint8_t> dummyData;
+        callback(true,dummyHeaders,dummyData,0,progress,false);
     }
     return false;
 }
