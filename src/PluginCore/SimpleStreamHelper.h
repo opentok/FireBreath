@@ -32,7 +32,7 @@ namespace FB {
     FB_FORWARD_PTR(SimpleStreamHelper);
 
     typedef std::multimap<std::string, std::string> HeaderMap;
-    typedef boost::function<void (bool, const FB::HeaderMap&, const boost::shared_array<uint8_t>&, const size_t)> HttpCallback;
+    typedef boost::function<void (bool, const FB::HeaderMap&, const boost::shared_array<uint8_t>&, const size_t, float, bool)> HttpCallback;
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     /// @class  HttpStreamResponse
