@@ -1,4 +1,3 @@
 [submodule "src/3rdParty/boost"]
 	path = src/3rdParty/boost
 	url = https://github.com/opentok/firebreath-boost.git
-  branch = 1.50.0
