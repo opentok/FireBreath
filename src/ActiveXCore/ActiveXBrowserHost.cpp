@@ -175,6 +175,10 @@ void ActiveXBrowserHost::resume(IWebBrowser2 *doc, IOleClientSite* clientSite)
     if (m_webBrowser && !m_htmlDocDisp) {
         m_webBrowser->get_Document(&m_htmlDocDisp);
         CComQIPtr<IHTMLDocument2> doc(m_htmlDocDisp);
+        if(!doc) {
+          // UT : Hack for IE8
+          return;
+        }
         assert(doc);
         doc->get_parentWindow(&m_htmlWin);
         assert(m_htmlWin);
