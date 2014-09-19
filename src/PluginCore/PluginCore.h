@@ -319,10 +319,10 @@ namespace FB {
         /// @param  inParams    Options for controlling the in. 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        virtual void setParams(const FB::VariantMap& inParams);
+        void setParams(const FB::VariantMap& inParams);
         
-        virtual boost::optional<std::string> getParam(const std::string& key);
-        virtual FB::variant getParamVariant(const std::string& key);
+        boost::optional<std::string> getParam(const std::string& key);
+        FB::variant getParamVariant(const std::string& key);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn virtual bool PluginCore::handleUnsolicitedStream(const BrowserStreamRequest& req)

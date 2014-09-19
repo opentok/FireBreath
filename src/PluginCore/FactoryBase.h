@@ -192,7 +192,7 @@ namespace FB
         ///
         /// @return An NpapiPluginPtr containing an NpapiPlugin derived plugin handler
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        virtual FB::Npapi::NpapiPluginPtr   createNpapiPlugin(const FB::Npapi::NpapiBrowserHostPtr& host, const std::string& mimetype);
+        FB::Npapi::NpapiPluginPtr   createNpapiPlugin(const FB::Npapi::NpapiBrowserHostPtr& host, const std::string& mimetype);
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn virtual void getLoggingMethods(FB::Log::LogMethodList& outMethods)
