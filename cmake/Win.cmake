@@ -173,7 +173,7 @@ macro(firebreath_sign_file PROJNAME _FILENAME PFXFILE PASSFILE TIMESTAMP_URL)
                 ${WINSDK_DIR}/bin
                 )
             if (SIGNTOOL)
-                set(_STCMD signtool sign /f "${PFXFILE}")
+                set(_STCMD signtool sign /fd sha256 /f "${PFXFILE}")
                 if (NOT "${PASSFILE}" STREQUAL "")
                     file(STRINGS "${PASSFILE}" PASSPHRASE LIMIT_COUNT 1)
                     set(_STCMD ${_STCMD} /p ${PASSPHRASE})
