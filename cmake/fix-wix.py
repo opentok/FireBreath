@@ -19,8 +19,8 @@ def FixWix(infile, outfile):
     for wComponent in tree.xpath('//w:Component', namespaces=wix_xmlns):
         #Directory="dir99DE416F55C8960850D5A4FCA3758AD4"
         if wComponent.get("Directory").startswith("dir"):
-            wComponent.set("Directory","TARGETDIR")
-            print('>>> Fixed {}: Directory="TARGETDIR"'.format(tree.getpath(wComponent)))
+            wComponent.set("Directory","INSTALLDIR")
+            print('>>> Fixed {}: Directory="INSTALLDIR"'.format(tree.getpath(wComponent)))
             
     for wFile in tree.xpath('//w:File', namespaces=wix_xmlns):
         #Source="SourceDir\Release\npHWLink.dll"
