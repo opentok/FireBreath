@@ -39,6 +39,7 @@ if (WIN32)
             "$ENV{ProgramFiles(x86)}/Windows Installer XML v3.6"
             "$ENV{ProgramFiles(x86)}/WiX Toolset v3.6"
             "$ENV{ProgramFiles(x86)}/WiX Toolset v3.7"
+            "$ENV{ProgramFiles(x86)}/WiX Toolset v3.10"
             )
 
 
@@ -80,8 +81,8 @@ if (WIN32)
         SET(WIX_CANDLE ${WIX_ROOT_DIR}/bin/candle.exe)
         SET(WIX_LIGHT ${WIX_ROOT_DIR}/bin/light.exe)
         SET(WIX_HEAT ${WIX_ROOT_DIR}/bin/heat.exe)
-        SET(WIX_SETUPBLD ${WIX_ROOT_DIR}/bin/setupbld.exe)
-        SET(WIX_SETUP ${WIX_ROOT_DIR}/bin/setup.exe)
+        #SET(WIX_SETUPBLD ${WIX_ROOT_DIR}/bin/setupbld.exe)
+        #SET(WIX_SETUP ${WIX_ROOT_DIR}/bin/setup.exe)
         #  MESSAGE(STATUS "Windows Installer XML found.")
     ENDIF(NOT WIX_FOUND)
 
@@ -248,13 +249,13 @@ if (WIN32)
     #  _target - Name of target exe file
     #  _source - Name of source msi file
     #
-    MACRO(WIX_SETUPBLD _project _target _source )
-        ADD_CUSTOM_COMMAND( TARGET    ${_project} POST_BUILD
-            COMMAND   ${WIX_SETUPBLD}
-            ARGS      -out "${_target}" -mpsu "${_source}" -setup ${WIX_SETUP}
-            DEPENDS   ${_source}
-            COMMENT   "Wrapping ${_source} -> ${_target}"
-            )
-
-    ENDMACRO(WIX_SETUPBLD)
+    #MACRO(WIX_SETUPBLD _project _target _source )
+    #    ADD_CUSTOM_COMMAND( TARGET    ${_project} POST_BUILD
+    #        COMMAND   ${WIX_SETUPBLD}
+    #        ARGS      -out "${_target}" -mpsu "${_source}" -setup ${WIX_SETUP}
+    #        DEPENDS   ${_source}
+    #        COMMENT   "Wrapping ${_source} -> ${_target}"
+    #        )
+    #
+    #ENDMACRO(WIX_SETUPBLD)
 endif(WIN32)
