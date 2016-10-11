@@ -195,7 +195,7 @@ namespace FB {
                     call->m_cond.timed_wait(lock, wait_duration);
                 }
                 if (host->isShutDown())
-                    throw FB::script_error("Shutting down");
+                  return result;
                 result = funct->getResult();
                 varResult = call->m_result;
             }
