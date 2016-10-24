@@ -48,6 +48,8 @@ namespace FB { namespace ActiveX {
             else return getHost()->getContextID();
         };
         IDispatch* getIDispatch() const {
+            if (m_obj.expired() || m_browser.expired()) return NULL;
+
             IDispatchSRef sref(m_obj);
             return sref->getPtr();
         }
