@@ -21,7 +21,13 @@ def FixWix(infile, outfile):
         if wComponent.get("Directory").startswith("dir"):
             wComponent.set("Directory","INSTALLDIR")
             print('>>> Fixed {}: Directory="INSTALLDIR"'.format(tree.getpath(wComponent)))
-            
+
+    for wTypeLib in tree.xpath('//w:TypeLib', namespaces=wix_xmlns):
+        #Directory="dir99DE416F55C8960850D5A4FCA3758AD4"
+        if wTypeLib.get("HelpDirectory").startswith("dir"):
+            wTypeLib.set("HelpDirectory","INSTALLDIR")
+            print('>>> Fixed {}: HelpDirectory="INSTALLDIR"'.format(tree.getpath(wTypeLib)))
+
     for wFile in tree.xpath('//w:File', namespaces=wix_xmlns):
         #Source="SourceDir\Release\npHWLink.dll"
         if wFile.get("Source").startswith("SourceDir"):
