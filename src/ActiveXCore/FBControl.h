@@ -359,7 +359,13 @@ namespace FB {
             // if we don't the plugin won't shut down properly; normally it isn't an issue to do
             // so, but note that this gets called if you move the plugin around in the DOM!
             if (m_host) {
-                m_host->ReleaseAllHeldObjects();
+                // OPENTOK-38622 - In the way we use the IE Plugin, we add new <objects> to the dom
+                // when a new renderer is created. That invalidates the retained JS Object references
+                // that we have in the plugin ( callbacks, success and error callbacks )
+                // We are going to move this release to our plugin shutdown so all the events should
+                // be dispatched always and no more "Unable to get property 'apply' of undefined or
+                // null reference" should appear in the logs
+                // m_host->ReleaseAllHeldObjects(); //<---- this line deletes all the JS references
                 m_connPtMap.clear();
                 m_host->suspend();
             }
